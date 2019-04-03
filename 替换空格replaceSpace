@@ -1,0 +1,38 @@
+#include<iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+void replaceSpace(char str[],int length);
+void replaceSpace_1(char str[],int length);
+int main()
+{
+	char str[]="we are happy";
+	replaceSpace(str,strlen(str));
+}
+void replaceSpace_1(char str[],int length)//c版本 
+{
+	char a[length];			
+	strcpy(a,str);		
+	char b[]="%20";			
+	for(int i=0,j=0;i<length;i++)
+		if(a[i]!=' ') str[j++]=a[i];
+		else
+		{
+			for(int k=0;k<3;k++)
+				str[j++]=b[k];
+		}
+		cout<<str<<endl;
+	cout<<strlen(str)<<endl;
+}
+void replaceSpace(char str[],int length) //stl版本 
+{
+	string a(str);
+	string b("%20");
+	int i;
+		while((i=a.find(' ',i))!=-1)	//	string.find()失败会返回-1，成功返回下标。第二个参数默认是0开始，如果从i开始表示从上次结束的开始 
+		{
+			a.erase(i,1);			//不能直接用string.replace(),会出结果 we%20e happy
+			a.insert(i,"%20");		//直接 string.insert()，会出结果 we %20are happy
+		} 
+	cout<<a<<endl; 
+}
