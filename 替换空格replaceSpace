@@ -28,7 +28,7 @@ void replaceSpace(char str[],int length) //stl版本
 {
 	string a(str);
 	string b("%20");
-	int i;
+	int i=0;
 		while((i=a.find(' ',i))!=-1)	//	string.find()失败会返回-1，成功返回下标。第二个参数默认是0开始，如果从i开始表示从上次结束的开始 
 		{
 			a.erase(i,1);			//不能直接用string.replace(),会出结果 we%20e happy
