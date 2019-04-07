@@ -1,0 +1,29 @@
+#include<iostream>
+using namespace std;
+double Power(double base, int exponent);
+double pPower(double base, int exponent);
+int main()
+{
+	cout<<Power(2.0,3)<<endl;
+	cout<<Power(2.0,-3)<<endl;
+	cout<<Power(-2.0,3)<<endl;
+	cout<<Power(-2.0,-3)<<endl;
+}
+double Power(double base, int exponent)
+{
+	return exponent>=0?pPower(base,exponent):1/pPower(base,-exponent);
+}
+double pPower(double base, int exponent)
+{
+	if(exponent==0) return 1.0;
+	//if(exponent%2) return pPower(base,exponent/2)*base; 		p(2,3)会出错，原因没有考虑边界 3/2=1 向下取整出错了 
+	//if(exponent%2) return pPower(base,(exponent+1)/2)*base;	p(x,1)会内存溢出，原因：死循环	
+	if(exponent==1) return base; 		//由于p(x,1)的问题，还会有这个边界问题 
+	if(exponent%2) return pPower(base,(exponent+1)/2)*base;
+	else 
+	{
+		double ans=pPower(base,exponent/2);
+		return ans*ans;
+	}
+}
+/* 更多边界条件和特例 offer p113*/
