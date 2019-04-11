@@ -1,0 +1,92 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+class ListNode 
+{
+	public:
+    	int val;
+    	ListNode *next;
+    	ListNode(int x):val(x),next(NULL) {}
+};
+ListNode *createlist(vector<int> a);
+void getlist(ListNode *p);
+bool hassame(ListNode *p);
+ListNode *finddif(ListNode *p,int &elem);
+ListNode* deleteDuplication(ListNode* pHead);
+int main()
+{
+	vector<int> a;
+	int num,elem;
+	cin>>num;
+	for(int i=0;i<num;i++)
+	{
+		cin>>elem;
+		a.push_back(elem);
+	}
+	ListNode *head=createlist(a);
+	head=deleteDuplication(head);
+	getlist(head);
+}
+ListNode *createlist(vector<int> a)
+{
+	int num=a.size();
+	ListNode *head=new ListNode(a[0]);
+	ListNode *phead=head,*p=head;
+	for(int i=1;i<num;i++)
+	{
+		ListNode *newelem=new ListNode(a[i]);
+		p->next=newelem;
+		p=p->next;
+	}
+	return head;
+	head=deleteDuplication(head);
+}
+void getlist(ListNode *p)
+{
+	while(p!=NULL)
+	{
+		cout<<p->val<<" ";
+		p=p->next;
+	}
+	cout<<endl;
+}
+bool hassame(ListNode *p)
+{
+    if(p->next==NULL) return false; 
+    return p->val==p->next->val?true:false;
+} 
+ListNode* deleteDuplication(ListNode* pHead)	//#2 
+{
+    if(pHead==NULL) return NULL;
+    ListNode* p=pHead; 
+    //for(ListNode* p=pHead;p!=NULL;p=p->next)	对于连续的要重复会出现无法发现！！
+	while(p!=NULL)
+    {
+    	cout<<"now is "<<p->val<<endl;
+    	if(hassame(p))
+        {
+        	cout<<p->val<<"hassame"<<endl;
+        	ListNode *nextdif=p->next;
+        	while(nextdif!=NULL&&nextdif->val==p->val)
+				nextdif=nextdif->next;
+			if(nextdif==NULL&&p==pHead)	return NULL; //被删除的结点只有一个结点 
+			if(nextdif==NULL)	//被删除的结点是尾结点，那么需要从头开始遍历 （找到被删的结点的上个结点） 
+			{	
+				//delete p;
+				cout<<"nextdif is null"<<endl;
+				ListNode *q=pHead;
+				while(q->next!=p)
+					q=q->next;
+				q->next=NULL;
+				return pHead;
+			} 
+			else
+			{
+				p->val=nextdif->val;
+				p->next=nextdif->next;
+			}
+        }
+        else p=p->next;
+    }
+    return pHead; 
+}
